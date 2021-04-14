@@ -1,0 +1,1 @@
+# python-django-note-sharing
