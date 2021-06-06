@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="keywords" content="{% block keywords %} Homepage keywords will be here. {% endblock %}">
+    <meta name="description" content="{% block description %} Homepage description will be here. {% endblock %}">
+    <title>{% block title %} Welcome to Notepedia! {% endblock %}</title>
+
+    {% load static %}
+
+    <!-- Design fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+    <!-- FontAwesome Icons core CSS -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+
+    <!-- Responsive styles for this template -->
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+
+    <!-- Colors for this template -->
+    <link href="{% static 'css/colors.css' %}" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    {% block head %} {% endblock %}
+</head>
+<body>
+    <!-- LOADER -->
+    <div id="preloader">
+        <img class="preloader" src="{% static 'images/loader.gif' %}" alt="">
+    </div><!-- end loader -->
+    <!-- END LOADER -->
+
+    <div id="wrapper">
+        {% include 'header.html' %}
+        {% block masonry %}  {% endblock %}
+        {% block content %}  {% endblock %}
+        {% block body %}  {% endblock %}
+        {% include 'footer.html' %}
+        {% block foot %}  {% endblock %}
+        footer
+    </div>
+
+    <!-- Core JavaScript
+    ================================================== -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/tether.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+
+</body>
+</html>

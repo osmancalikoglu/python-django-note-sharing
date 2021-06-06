@@ -1,0 +1,16 @@
+{% extends 'homebase.html' %}
+
+{% block title %} {{ setting.title }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ setting.icon.url }}" type="image/x-icon" />
+{% endblock %}
+
+{% block masonry %}
+    {% include 'masonry.html' %}
+{% endblock %}
+
+{% block body %}
+    {% include 'content.html' %}
+{% endblock %}
