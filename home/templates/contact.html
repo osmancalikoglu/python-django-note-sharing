@@ -1,0 +1,66 @@
+{% extends 'homebase.html' %}
+
+{% block title %} Contact - {{ setting.company }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ setting.icon.url }}" type="image/x-icon" />
+{% endblock %}
+
+{% block body %}
+    <div class="page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <h2><i class="fa fa-envelope-o"></i> Contact us</h2>
+                </div><!-- end col -->
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="/contact">Contact</a></li>
+                    </ol>
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end page-title -->
+
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                    <div class="page-wrapper">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4>Who we are</h4>
+                                <p>{{ setting.contact|safe }}</p>
+                            </div>
+                            <div class="col-lg-12">
+                                <blockquote class="blockquote">Please read <a href="#">Licensing & Terms</a> of Use if you are wondering about <strong>the license. </strong></blockquote>
+                            </div>
+                        </div><!-- end row -->
+
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <h4>Contact form</h4>
+                                <form action="" method="POST" class="form-wrapper">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit" class="btn btn-primary">Send <i class="fa fa-envelope-open-o"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!-- end page-wrapper -->
+                </div><!-- end col -->
+                {% include 'sidebar.html' %}
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </section>
+{% endblock %}
