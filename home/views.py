@@ -3,12 +3,18 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
+from content.models import Category
 from home.models import Setting, ContactForm, ContactFormMessage
 
 
 def index(request):
     setting = Setting.objects.first()
-    context = {'setting': setting}
+    category = Category.objects.all()
+
+    context = {
+        'setting': setting,
+        'category' : category
+    }
     return render(request, 'index.html', context)
 
 
