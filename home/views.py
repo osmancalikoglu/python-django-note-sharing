@@ -13,7 +13,7 @@ def index(request):
 
     context = {
         'setting': setting,
-        'category' : category
+        'category': category
     }
     return render(request, 'index.html', context)
 
@@ -32,18 +32,31 @@ def contact(request):
             return HttpResponseRedirect('/contact')
 
     setting = Setting.objects.first()
+    category = Category.objects.all()
     form = ContactForm()
-    context = {'setting': setting, 'form': form}
+    context = {
+        'setting': setting,
+        'category': category,
+        'form': form
+    }
     return render(request, 'contact.html', context)
 
 
 def about(request):
     setting = Setting.objects.first()
-    context = {'setting': setting}
+    category = Category.objects.all()
+    context = {
+        'setting': setting,
+        'category': category
+    }
     return render(request, 'about.html', context)
 
 
 def references(request):
     setting = Setting.objects.first()
-    context = {'setting': setting}
+    category = Category.objects.all()
+    context = {
+        'setting': setting,
+        'category': category
+    }
     return render(request, 'references.html', context)
