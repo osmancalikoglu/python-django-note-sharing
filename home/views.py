@@ -10,10 +10,14 @@ from home.models import Setting, ContactForm, ContactFormMessage
 def index(request):
     setting = Setting.objects.first()
     category = Category.objects.all()
+    recent_notes = Content.objects.all()[:4]
+    random_notes = Content.objects.all().order_by('?')[:4]
 
     context = {
         'setting': setting,
-        'category': category
+        'category': category,
+        'recent_notes': recent_notes,
+        'random_notes': random_notes
     }
     return render(request, 'index.html', context)
 
@@ -62,7 +66,7 @@ def references(request):
     return render(request, 'references.html', context)
 
 
-def category_contents(request,id,slug):
+def category_notes(request,id,slug):
     setting = Setting.objects.first()
     category = Category.objects.all()
     categorydata = Category.objects.get(pk=id)
@@ -73,4 +77,4 @@ def category_contents(request,id,slug):
         'categorydata': categorydata,
         'contents': contents
     }
-    return render(request, 'contents.html', context)
+    return render(request, 'notes.html', context)

@@ -54,6 +54,7 @@ class Content(models.Model):
     detail = RichTextUploadingField()
     file = models.FileField(blank=True, upload_to='files/')
     status = models.CharField(max_length=10, choices=STATUS)
+    slug = models.SlugField()
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

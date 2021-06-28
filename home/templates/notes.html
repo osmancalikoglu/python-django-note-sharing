@@ -34,7 +34,7 @@
                                 <div class="blog-box row">
                                     <div class="col-md-4">
                                         <div class="post-media">
-                                            <a href="/note/{{ rs.id }}" title="">
+                                            <a href="/note/{{ rs.id }}/{{ rs.sluggit git }}" title="">
                                                 <img src="{{ rs.image.url }}" alt="" class="img-fluid">
                                                 <div class="hovereffect"></div>
                                             </a>
@@ -42,9 +42,9 @@
                                     </div><!-- end col -->
 
                                     <div class="blog-meta big-meta col-md-8">
-                                        <h4><a href="/note/{{ rs.id }}" title="">{{ rs.title }}</a></h4>
+                                        <h4><a href="/note/{{ rs.id }}/{{ rs.slug }}" title="">{{ rs.title }}</a></h4>
                                         <p>{{ rs.description }}</p>
-                                        <small><a href="/note/{{ rs.id }}" title="">{{ rs.created_at.date }}</a></small>
+                                        <small><a href="/note/{{ rs.id }}/{{ rs.slug }}" title="">{{ rs.created_at.date }}</a></small>
                                         <small><a href="blog-author.html" title="">by Matilda</a></small>
                                     </div><!-- end meta -->
                                 </div><!-- end blog-box -->
