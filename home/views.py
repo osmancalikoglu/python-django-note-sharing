@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
@@ -92,3 +93,28 @@ def note_detail(request,id,slug):
         'images': images
     }
     return render(request, 'note_detail.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            messages.error(request, 'Login error! Please check your credentials.')
+            return HttpResponseRedirect('/login')
+    setting = Setting.objects.first()
+    category = Category.objects.all()
+    context = {
+        'setting': setting,
+        'category': category
+    }
+    return render(request, 'login.html', context)

@@ -1,0 +1,56 @@
+{% extends 'homebase.html' %}
+
+{% block title %} Login - {{ setting.company }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ setting.icon.url }}" type="image/x-icon" />
+{% endblock %}
+
+{% block body %}
+    <div class="page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <h2><i class="fa fa-envelope-o"></i> Login</h2>
+                </div><!-- end col -->
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="/contact">Login</a></li>
+                    </ol>
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end page-title -->
+
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                    <div class="page-wrapper">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <h5>Enter your login information</h5>
+                                <form action="" method="POST" class="form-wrapper">
+                                    {% csrf_token %}
+                                    <input name="username" type="text" class="form-control" placeholder="Username">
+                                    <input name="password" type="password" class="form-control" placeholder="Password">
+                                    <button type="submit" class="btn btn-primary">Login <i class="fa fa-send-o"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!-- end page-wrapper -->
+                </div><!-- end col -->
+                {% include 'sidebar.html' %}
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </section>
+{% endblock %}

@@ -31,6 +31,8 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('category/<int:id>/<slug:slug>/', views.category_notes, name='category_notes'),
     path('note/<int:id>/<slug:slug>/', views.note_detail, name='note_detail'),
+    path('logout/', views.logout_view, name='logout'),
+    path('login/', views.login_view, name='login')
 ]
 
 if settings.DEBUG:
