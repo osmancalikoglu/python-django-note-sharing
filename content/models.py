@@ -30,7 +30,7 @@ class Category(MPTTModel):
         while p is not None:
             full_path.append(p.title)
             p = p.parent
-        return ' >> '.join((full_path[::-1]))
+        return ' / '.join((full_path[::-1]))
 
     def image_tag(self):
         if self.image:
