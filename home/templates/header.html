@@ -29,16 +29,16 @@
                 <div class="topmenu text-center">
                     <ul class="list-inline">
                         <li class="list-inline-item nav-item dropdown has-submenu">
-                            <i class="fa fa-user-circle-o"></i>
                             {% if user.id is not None %}
+                            <img src="{{ user.userprofile.image.url }}" height="30px" class="rounded-circle">
                                 <a class="nav-link dropdown-toggle d-inline" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.first_name }}</a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdown02">
-                                <li><a class="dropdown-item" href="/">My Account</a></li>
-                                <li><a class="dropdown-item" href="/">My Notes</a></li>
-                                <li><a class="dropdown-item" href="/">My Comments</a></li>
-                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                <li><a class="btn-sm dropdown-item" href="/user"><i class="fa fa-user-o"></i> My Account</a></li>
+                                <li><a class="btn-sm dropdown-item" href="/"><i class="fa fa-sticky-note-o"></i> My Notes</a></li>
+                                <li><a class="btn-sm dropdown-item" href="/"><i class="fa fa-comment-o"></i> My Comments</a></li>
+                                <li><a class="btn-sm dropdown-item" href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
                             {% else %}
-                                <a class="d-inline" href="/login">Login</a>&nbsp; | &nbsp;<a class="d-inline" href="/register">Register</a>
+                                <a class="d-inline" href="/login"><i class="fa fa-sign-in"></i> Login</a>&nbsp; | &nbsp;<a class="d-inline" href="/register"><i class="fa fa-user-plus"></i> Register</a>
                             {% endif %}
                         </li>
                     </ul><!-- end ul -->
