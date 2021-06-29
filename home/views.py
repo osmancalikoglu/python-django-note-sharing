@@ -40,10 +40,12 @@ def contact(request):
 
     setting = Setting.objects.first()
     category = Category.objects.all()
+    recent_notes = Content.objects.all().filter(status='True')[:4]
     form = ContactForm()
     context = {
         'setting': setting,
         'category': category,
+        'recent_notes': recent_notes,
         'form': form
     }
     return render(request, 'contact.html', context)
@@ -52,8 +54,10 @@ def contact(request):
 def about(request):
     setting = Setting.objects.first()
     category = Category.objects.all()
+    recent_notes = Content.objects.all().filter(status='True')[:4]
     context = {
         'setting': setting,
+        'recent_notes': recent_notes,
         'category': category
     }
     return render(request, 'about.html', context)
@@ -62,8 +66,10 @@ def about(request):
 def references(request):
     setting = Setting.objects.first()
     category = Category.objects.all()
+    recent_notes = Content.objects.all().filter(status='True')[:4]
     context = {
         'setting': setting,
+        'recent_notes': recent_notes,
         'category': category
     }
     return render(request, 'references.html', context)
@@ -72,11 +78,13 @@ def references(request):
 def category_notes(request,id,slug):
     setting = Setting.objects.first()
     category = Category.objects.all()
+    recent_notes = Content.objects.all().filter(status='True')[:4]
     categorydata = Category.objects.get(pk=id)
     contents = Content.objects.filter(category_id=id, status='True')
     context = {
         'setting': setting,
         'category': category,
+        'recent_notes': recent_notes,
         'categorydata': categorydata,
         'contents': contents
     }
@@ -86,11 +94,13 @@ def category_notes(request,id,slug):
 def note_detail(request,id,slug):
     setting = Setting.objects.first()
     category = Category.objects.all()
+    recent_notes = Content.objects.all().filter(status='True')[:4]
     notedata = Content.objects.get(pk=id)
     images = Images.objects.filter(content_id=id)
     context = {
         'setting': setting,
         'category': category,
+        'recent_notes': recent_notes,
         'notedata': notedata,
         'images': images
     }
@@ -115,8 +125,10 @@ def login_view(request):
             return HttpResponseRedirect('/login')
     setting = Setting.objects.first()
     category = Category.objects.all()
+    recent_notes = Content.objects.all().filter(status='True')[:4]
     context = {
         'setting': setting,
+        'recent_notes': recent_notes,
         'category': category
     }
     return render(request, 'login.html', context)
@@ -139,10 +151,12 @@ def register_view(request):
                 return HttpResponseRedirect('/')
     setting = Setting.objects.first()
     category = Category.objects.all()
+    recent_notes = Content.objects.all().filter(status='True')[:4]
     form = RegisterForm()
     context = {
         'setting': setting,
         'category': category,
+        'recent_notes': recent_notes,
         'form': form
     }
     return render(request, 'register.html', context)
