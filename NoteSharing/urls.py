@@ -35,7 +35,8 @@ urlpatterns = [
     path('note/<int:id>/<slug:slug>/', views.note_detail, name='note_detail'),
     path('logout/', views.logout_view, name='logout'),
     path('login/', views.login_view, name='login'),
-    path('register/', views.register_view, name='register')
+    path('register/', views.register_view, name='register'),
+    path('search/', views.note_search, name='note_search'),
 ]
 
 if settings.DEBUG:

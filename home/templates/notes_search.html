@@ -1,6 +1,6 @@
 {% extends 'homebase.html' %}
 
-{% block title %} {{ profile.user.username }} - User Notes {% endblock %}
+{% block title %} Search results for "{{ query }}" {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block head %}
@@ -13,39 +13,26 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}'s Notes</h2>
+                    <h2>Search results for "{{ query }}"</h2>
                 </div><!-- end col -->
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/user">User</a></li>
-                        <li class="breadcrumb-item active">Profile</li>
+                        <li class="breadcrumb-item active">Search</li>
                     </ol>
                 </div><!-- end col -->
             </div><!-- end row -->
         </div><!-- end container -->
     </div><!-- end page-title -->
-    {% if messages %}
-        {% for message in messages %}
-            <div {% if message.tags == 'error' %} class="alert alert-danger m-0" {% else %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
-                {{ message|safe }}
-            </div>
-        {% endfor %}
-    {% endif %}
     <section class="section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                     <div class="page-wrapper">
                         <div class="custombox clearfix">
-                            <h4 class="small-title">{{ notes|length }} Note(s)</h4>
+                            <h4 class="small-title">{{ notes|length }} Result(s) Found</h4>
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <a class="btn btn-info float-right" style="margin-top: -4.25rem;" href="/user/notes/add"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add New Note</a>
-                                        </div>
-                                    </div>
                                     <div class="comments-list">
                                         {% for rs in notes %}
                                             <div class="media">
@@ -53,10 +40,7 @@
                                                 <div class="media-body">
                                                     <h4 class="media-heading user_name d-inline">{{ rs.title }} <small>{{ rs.created_at.date}}</small></h4><a class="btn-sm btn-outline-secondary ml-2" href="/category/{{ rs.category.id }}/{{ rs.category.slug }}" title="">{{ rs.category }}</a>
                                                     <p>{{ rs.description }}</p>
-                                                    <a href="/user/notes/{{ rs.id }}" class="btn btn-primary btn-sm"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp;Detail</a>
-                                                    <small>Is Approved : </small>{% if rs.status == 'False' %} <i class="fa fa-ban text-danger"></i> {% else %} <i class="fa fa-check text-success"></i> {% endif %}
-                                                    <a onclick="return confirm('Are you sure to delete?')" class="btn btn-sm btn-primary text-danger float-right" href="/user/notes/delete/{{ rs.id }}"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete Note</a>
-                                                    <a class="btn btn-sm btn-primary float-right" href="/user/notes/edit/{{ rs.id }}"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Note</a>
+                                                    <a href="/note/{{ rs.id }}/{{ rs.slug }}" class="btn btn-primary btn-sm"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp;Detail</a>
                                                 </div>
                                             </div>
                                             {% if not forloop.last %}<hr>{% endif %}
@@ -67,7 +51,7 @@
                         </div><!-- end custom-box -->
                     </div><!-- end page-wrapper -->
                 </div><!-- end col -->
-                {% include 'user_profile_sidebar.html' %}
+                {% include 'sidebar.html' %}
             </div><!-- end row -->
         </div><!-- end container -->
     </section>
