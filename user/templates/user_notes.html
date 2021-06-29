@@ -25,7 +25,13 @@
             </div><!-- end row -->
         </div><!-- end container -->
     </div><!-- end page-title -->
-
+    {% if messages %}
+        {% for message in messages %}
+            <div {% if message.tags == 'error' %} class="alert alert-danger m-0" {% else %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <section class="section">
         <div class="container">
             <div class="row">
@@ -35,6 +41,11 @@
                             <h4 class="small-title">{{ notes|length }} Note(s)</h4>
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <a class="btn btn-info float-right" style="margin-top: -4.25rem;" href="/user/notes/add"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add New Note</a>
+                                        </div>
+                                    </div>
                                     <div class="comments-list">
                                         {% for rs in notes %}
                                             <div class="media">
@@ -42,7 +53,10 @@
                                                 <div class="media-body">
                                                     <h4 class="media-heading user_name d-inline">{{ rs.title }} <small>{{ rs.created_at.date}}</small></h4><a class="btn-sm btn-outline-secondary ml-2" href="blog-category-01.html" title="">{{ rs.category }}</a>
                                                     <p>{{ rs.description }}</p>
-                                                    <a href="/user/notes/{{ rs.id }}" class="btn btn-primary btn-sm">Detail</a>
+                                                    <a href="/user/notes/{{ rs.id }}" class="btn btn-primary btn-sm"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp;Detail</a>
+                                                    <small>Is Approved : </small>{% if rs.status == 'False' %} <i class="fa fa-ban text-danger"></i> {% else %} <i class="fa fa-check text-success"></i> {% endif %}
+                                                    <a onclick="return confirm('Are you sure to delete?')" class="btn btn-sm btn-primary text-danger float-right" href="/user/notes/delete/{{ rs.id }}"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete Note</a>
+                                                    <a class="btn btn-sm btn-primary float-right" href="/user/notes/edit/{{ rs.id }}"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Note</a>
                                                 </div>
                                             </div>
                                             {% if not forloop.last %}<hr>{% endif %}

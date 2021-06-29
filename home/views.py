@@ -12,8 +12,8 @@ from home.models import Setting, ContactForm, ContactFormMessage, UserProfile
 def index(request):
     setting = Setting.objects.first()
     category = Category.objects.all()
-    recent_notes = Content.objects.all()[:4]
-    random_notes = Content.objects.all().order_by('?')[:4]
+    recent_notes = Content.objects.all().filter(status='True')[:4]
+    random_notes = Content.objects.all().filter(status='True').order_by('?')[:4]
 
     context = {
         'setting': setting,
@@ -73,7 +73,7 @@ def category_notes(request,id,slug):
     setting = Setting.objects.first()
     category = Category.objects.all()
     categorydata = Category.objects.get(pk=id)
-    contents = Content.objects.filter(category_id=id)
+    contents = Content.objects.filter(category_id=id, status='True')
     context = {
         'setting': setting,
         'category': category,

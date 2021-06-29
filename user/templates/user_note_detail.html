@@ -75,8 +75,8 @@
                             <hr class="invis1">
                             <div class="row">
                                 <div class="col col-lg-12 col-md-12 col-sm-12 text-center">
-                                    <a class="btn btn-info" href="/user/update"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Edit Note</a>
-                                    <a class="btn btn-outline-danger" href="/user/password"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete Note</a>
+                                    <a class="btn btn-info" href="/user/notes/edit/{{ notedata.id }}"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Note</a>
+                                    <a onclick="return confirm('Are you sure to delete?')" class="btn btn-outline-danger" href="/user/notes/delete/{{ notedata.id }}"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete Note</a>
                                 </div><!-- end col -->
                             </div>
                     </div><!-- end page-wrapper -->

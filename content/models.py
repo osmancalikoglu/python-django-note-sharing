@@ -1,7 +1,9 @@
 from ckeditor.fields import RichTextField
+from ckeditor.widgets import CKEditorWidget
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
+from django.forms import ModelForm, Select, TextInput, FileInput
 from django.utils.safestring import mark_safe
 from mptt.models import MPTTModel
 
@@ -82,3 +84,20 @@ class Images(models.Model):
         return mark_safe('<img src="{}" height="50" />'.format(self.image.url))
 
     image_tag.short_description = 'Image'
+
+
+class ContentForm(ModelForm):
+    class Meta:
+        model = Content
+        category = Category.objects.all()
+        fields = ['category', 'title', 'slug', 'keywords', 'description', 'detail', 'image', 'file']
+        widgets = {
+            'category': Select(attrs={'class': 'form-control', 'placeholder': 'Category'}, choices=category),
+            'title': TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
+            'slug': TextInput(attrs={'class': 'form-control', 'placeholder': 'Slug'}),
+            'keywords': TextInput(attrs={'class': 'form-control', 'placeholder': 'Keywords'}),
+            'description': TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'}),
+            'image': FileInput(attrs={'class': 'form-control', 'placeholder': 'Image'}),
+            'file': FileInput(attrs={'class': 'form-control', 'placeholder': 'File'}),
+            'detail': CKEditorWidget()
+        }

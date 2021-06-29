@@ -1,0 +1,63 @@
+{% extends 'homebase.html' %}
+
+{% block title %} {{ profile.user.username }} - User Add Note {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ setting.icon.url }}" type="image/x-icon" />
+{% endblock %}
+
+{% block body %}
+    {% load static %}
+    <div class="page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}'s Note</h2>
+                </div><!-- end col -->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/user">User</a></li>
+                        <li class="breadcrumb-item active">Profile</li>
+                    </ol>
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end page-title -->
+
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                    <div class="page-wrapper">
+                        <div class="custombox authorbox clearfix">
+                            <h4 class="small-title">Add New Note</h4>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <div {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
+                                                {{ message|safe }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <form method="POST" enctype="multipart/form-data" class="form-wrapper">
+                                        {% csrf_token %}
+                                        {{ form.media }}
+                                        {{ form.as_p }}
+                                        <div class="row">
+                                            <a href="/user/notes" class="btn btn-outline-danger"><i class="fa fa-arrow-left"></i> Back</a>
+                                            <button type="submit" class="btn btn-primary">Send <i class="fa fa-send-o"></i></button>
+                                        </div>
+                                    </form>
+                                </div><!-- end col -->
+                            </div><!-- end row -->
+                        </div><!-- end author-box -->
+                    </div><!-- end page-wrapper -->
+                </div><!-- end col -->
+                {% include 'user_profile_sidebar.html' %}
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </section>
+{% endblock %}

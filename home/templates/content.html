@@ -22,7 +22,7 @@
                                         <div class="blog-meta">
                                             <span class="bg-grey"><a href="/category/{{ rs.category.id }}/{{ rs.category.slug }}" title="">{{ rs.category.title }}</a></span>
                                             <h4><a href="/note/{{ rs.id }}/{{ rs.slug }}" title="">{{ rs.title }}</a></h4>
-                                            <small><a href="blog-author.html" title="">By: Jessica</a></small>
+                                            <small><a href="blog-author.html" title="">By: {{ rs.user }}</a></small>
                                             <small><a href="/category/{{ rs.category.id }}/{{ rs.category.slug }}" title="">{{ rs.created_at.date }}</a></small>
                                         </div><!-- end meta -->
                                     </div><!-- end blog-box -->

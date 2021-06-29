@@ -7,7 +7,7 @@ from django.shortcuts import render
 
 
 # Create your views here.
-from content.models import Category, Content, Images
+from content.models import Category, Content, Images, ContentForm
 from home.models import Setting, UserProfile
 from user.forms import UserUpdateForm, ProfileUpdateForm
 
@@ -104,3 +104,72 @@ def user_note_detail(request,id):
         'images': images
     }
     return render(request, 'user_note_detail.html', context)
+
+
+@login_required(login_url='/login')
+def user_add_note(request):
+    if request.method == 'POST':
+        form = ContentForm(request.POST, request.FILES)
+        if form.is_valid():
+            current_user = request.user
+            data = Content()
+            data.user_id = current_user.id
+            data.category = form.cleaned_data['category']
+            data.title = form.cleaned_data['title']
+            data.keywords = form.cleaned_data['keywords']
+            data.description = form.cleaned_data['description']
+            data.image = form.cleaned_data['image']
+            data.detail = form.cleaned_data['detail']
+            data.file = form.cleaned_data['file']
+            data.slug = form.cleaned_data['slug']
+            data.status = 'False'
+            data.save()
+            messages.success(request, 'Your note was successfully inserted!')
+            return HttpResponseRedirect('/user/notes')
+        else:
+            messages.error(request, 'Please correct the error below.<br>' + str(form.errors))
+            return HttpResponseRedirect('/user/notes/add')
+    else:
+        category = Category.objects.all()
+        form = ContentForm()
+        current_user = request.user
+        profile = UserProfile.objects.get(user_id=current_user.id)
+        context = {
+            'form': form,
+            'category': category,
+            'profile': profile
+        }
+        return render(request, 'user_add_note.html', context)
+
+
+@login_required(login_url='/login')
+def user_edit_note(request,id):
+    content = Content.objects.get(id=id)
+    if request.method == 'POST':
+        form = ContentForm(request.POST, request.FILES, instance=content)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your note was successfully updated!')
+            return HttpResponseRedirect('/user/notes')
+        else:
+            messages.error(request, 'Please correct the error below.<br>' + str(form.errors))
+            return HttpResponseRedirect('/user/notes/edit/' + str(id))
+    else:
+        form = ContentForm(instance=content)
+        category = Category.objects.all()
+        current_user = request.user
+        profile = UserProfile.objects.get(user_id=current_user.id)
+        context = {
+            'form': form,
+            'category': category,
+            'profile': profile
+        }
+        return render(request, 'user_add_note.html', context)
+
+
+@login_required(login_url='/login')
+def user_delete_note(request,id):
+    current_user = request.user
+    Content.objects.filter(id=id, user_id=current_user.id).delete()
+    messages.success(request, 'Your note was successfully deleted!')
+    return HttpResponseRedirect('/user/notes')
