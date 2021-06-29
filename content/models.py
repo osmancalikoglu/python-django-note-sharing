@@ -1,5 +1,6 @@
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.safestring import mark_safe
 from mptt.models import MPTTModel
@@ -55,7 +56,7 @@ class Content(models.Model):
     file = models.FileField(blank=True, upload_to='files/')
     status = models.CharField(max_length=10, choices=STATUS)
     slug = models.SlugField()
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
