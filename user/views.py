@@ -7,7 +7,7 @@ from django.shortcuts import render
 
 
 # Create your views here.
-from content.models import Category
+from content.models import Category, Content, Images
 from home.models import Setting, UserProfile
 from user.forms import UserUpdateForm, ProfileUpdateForm
 
@@ -74,3 +74,33 @@ def change_password(request):
             'profile': profile
         }
         return render(request, 'change_password.html', context)
+
+
+@login_required(login_url='/login')
+def user_notes(request):
+    category = Category.objects.all()
+    current_user = request.user
+    profile = UserProfile.objects.get(user_id=current_user.id)
+    notes = Content.objects.filter(user_id=current_user.id)
+    context = {
+        'notes': notes,
+        'category': category,
+        'profile': profile
+    }
+    return render(request, 'user_notes.html', context)
+
+
+@login_required(login_url='/login')
+def user_note_detail(request,id):
+    category = Category.objects.all()
+    current_user = request.user
+    profile = UserProfile.objects.get(user_id=current_user.id)
+    notedata = Content.objects.get(user_id=current_user.id, pk=id)
+    images = Images.objects.filter(content_id=id)
+    context = {
+        'notedata': notedata,
+        'category': category,
+        'profile': profile,
+        'images': images
+    }
+    return render(request, 'user_note_detail.html', context)

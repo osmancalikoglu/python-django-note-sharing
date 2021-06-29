@@ -34,8 +34,9 @@
                                 <a class="nav-link dropdown-toggle d-inline" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.first_name }}</a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdown02">
                                 <li><a class="btn-sm dropdown-item" href="/user"><i class="fa fa-user-o"></i> My Account</a></li>
-                                <li><a class="btn-sm dropdown-item" href="/"><i class="fa fa-sticky-note-o"></i> My Notes</a></li>
-                                <li><a class="btn-sm dropdown-item" href="/"><i class="fa fa-comment-o"></i> My Comments</a></li>
+                                <li><a class="btn-sm dropdown-item" href="/user/favorites"><i class="fa fa-star-half-o"></i> My Favorites</a></li>
+                                <li><a class="btn-sm dropdown-item" href="/user/notes"><i class="fa fa-sticky-note-o"></i> My Notes</a></li>
+                                <li><a class="btn-sm dropdown-item" href="/user/comments"><i class="fa fa-comment-o"></i> My Comments</a></li>
                                 <li><a class="btn-sm dropdown-item" href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
                             {% else %}
                                 <a class="d-inline" href="/login"><i class="fa fa-sign-in"></i> Login</a>&nbsp; | &nbsp;<a class="d-inline" href="/register"><i class="fa fa-user-plus"></i> Register</a>

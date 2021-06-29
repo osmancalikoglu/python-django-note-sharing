@@ -1,0 +1,60 @@
+{% extends 'homebase.html' %}
+
+{% block title %} {{ profile.user.username }} - User Notes {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ setting.icon.url }}" type="image/x-icon" />
+{% endblock %}
+
+{% block body %}
+    {% load static %}
+    <div class="page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}'s Notes</h2>
+                </div><!-- end col -->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/user">User</a></li>
+                        <li class="breadcrumb-item active">Profile</li>
+                    </ol>
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end page-title -->
+
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                    <div class="page-wrapper">
+                        <div class="custombox clearfix">
+                            <h4 class="small-title">{{ notes|length }} Note(s)</h4>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="comments-list">
+                                        {% for rs in notes %}
+                                            <div class="media">
+                                                    <img src="{{ rs.image.url }}" alt="" class="rounded-circle">
+                                                <div class="media-body">
+                                                    <h4 class="media-heading user_name d-inline">{{ rs.title }} <small>{{ rs.created_at.date}}</small></h4><a class="btn-sm btn-outline-secondary ml-2" href="blog-category-01.html" title="">{{ rs.category }}</a>
+                                                    <p>{{ rs.description }}</p>
+                                                    <a href="/user/notes/{{ rs.id }}" class="btn btn-primary btn-sm">Detail</a>
+                                                </div>
+                                            </div>
+                                            {% if not forloop.last %}<hr>{% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div><!-- end col -->
+                            </div><!-- end row -->
+                        </div><!-- end custom-box -->
+                    </div><!-- end page-wrapper -->
+                </div><!-- end col -->
+                {% include 'user_profile_sidebar.html' %}
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </section>
+{% endblock %}
