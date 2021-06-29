@@ -6,7 +6,7 @@ from django.shortcuts import render
 # Create your views here.
 from content.models import Category, Content, Images
 from home.forms import RegisterForm
-from home.models import Setting, ContactForm, ContactFormMessage
+from home.models import Setting, ContactForm, ContactFormMessage, UserProfile
 
 
 def index(request):
@@ -132,6 +132,10 @@ def register_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                data = UserProfile()
+                data.user_id = user.id
+                data.image = "images/users/user.png"
+                data.save()
                 return HttpResponseRedirect('/')
     setting = Setting.objects.first()
     category = Category.objects.all()
