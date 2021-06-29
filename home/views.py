@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from content.models import Category, Content, Images
+from home.forms import RegisterForm
 from home.models import Setting, ContactForm, ContactFormMessage
 
 
@@ -32,6 +33,7 @@ def contact(request):
             data.email = form.cleaned_data['email']
             data.subject = form.cleaned_data['subject']
             data.message = form.cleaned_data['message']
+            data.ip = request.META.get('REMOTE_ADDR')
             data.save()
             messages.success(request, 'Message sent successfully. Thanks.')
             return HttpResponseRedirect('/contact')
@@ -109,7 +111,7 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect('/')
         else:
-            messages.error(request, 'Login error! Please check your credentials.')
+            messages.warning(request, 'Login error! Please check your credentials.')
             return HttpResponseRedirect('/login')
     setting = Setting.objects.first()
     category = Category.objects.all()
@@ -118,3 +120,25 @@ def login_view(request):
         'category': category
     }
     return render(request, 'login.html', context)
+
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+    setting = Setting.objects.first()
+    category = Category.objects.all()
+    form = RegisterForm()
+    context = {
+        'setting': setting,
+        'category': category,
+        'form': form
+    }
+    return render(request, 'register.html', context)
