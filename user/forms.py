@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
-from django.forms import TextInput, Select, FileInput
+from django.forms import TextInput, Select, FileInput, inlineformset_factory, modelformset_factory
 
+from content.models import Images, Content
 from home.models import UserProfile
 
 
@@ -38,3 +39,15 @@ class ProfileUpdateForm(forms.ModelForm):
             'image': FileInput(attrs={'class': 'form-control', 'placeholder': 'Image'})
         }
 
+
+class ContentImageForm(forms.ModelForm):
+    class Meta:
+        model = Images
+        fields = ['title', 'image']
+        widgets = {
+            'title': TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
+            'image': FileInput(attrs={'class': 'form-control', 'placeholder': 'Image'})
+        }
+
+
+ContentImageFormSet = inlineformset_factory(Content, Images, form=ContentImageForm, extra=5)

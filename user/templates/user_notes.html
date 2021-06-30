@@ -53,9 +53,15 @@
                                                 <div class="media-body">
                                                     <h4 class="media-heading user_name d-inline">{{ rs.title }} <small>{{ rs.created_at.date}}</small></h4><a class="btn-sm btn-outline-secondary ml-2" href="/category/{{ rs.category.id }}/{{ rs.category.slug }}" title="">{{ rs.category }}</a>
                                                     <p>{{ rs.description }}</p>
-                                                    <a href="/user/notes/{{ rs.id }}" class="btn btn-primary btn-sm"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp;Detail</a>
-                                                    <small>Is Approved : </small>{% if rs.status == 'False' %} <i class="fa fa-ban text-danger"></i> {% else %} <i class="fa fa-check text-success"></i> {% endif %}
-                                                    <a onclick="return confirm('Are you sure to delete?')" class="btn btn-sm btn-primary text-danger float-right" href="/user/notes/delete/{{ rs.id }}"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete Note</a>
+                                                    <a href="/user/notes/{{ rs.id }}" class="btn btn-sm btn-primary float-left">
+                                                        <i class="fa fa-info"></i>&nbsp;&nbsp;Detail
+                                                    </a>
+                                                    <button id="showGallery" onclick="window.open('/user/notes/gallery/{{ rs.id }}', 'gallery', 'height=600, width=1000, top=100, left=250')" data-image="My images" type="button" class="btn btn-sm btn-primary text-warning float-left">
+                                                        Quick Gallery&nbsp;&nbsp;
+                                                        <i class="fa fa-image"></i>
+                                                    </button>
+                                                    <small>Is Approved : </small>{% if rs.status == 'False' %} <i class="fa fa-times text-danger"></i> {% else %} <i class="fa fa-check text-success"></i> {% endif %}
+                                                    <a onclick="return confirm('Are you sure to delete?')" class="btn btn-sm btn-primary text-danger float-right" href="/user/notes/delete/{{ rs.id }}">Delete Note&nbsp;&nbsp;<i class="fa fa-trash"></i></a>
                                                     <a class="btn btn-sm btn-primary float-right" href="/user/notes/edit/{{ rs.id }}"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Note</a>
                                                 </div>
                                             </div>
@@ -68,6 +74,19 @@
                     </div><!-- end page-wrapper -->
                 </div><!-- end col -->
                 {% include 'user_profile_sidebar.html' %}
+            <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Quick Gallery</h4>
+                            </div>
+                            {% include 'user_note_gallery_modal.html' %}
+                        </div><!--  End Modal Content -->
+                    </div>
+                </div><!--  End Modal -->
             </div><!-- end row -->
         </div><!-- end container -->
     </section>

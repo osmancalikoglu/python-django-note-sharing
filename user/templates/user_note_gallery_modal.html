@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="keywords" content="{% block keywords %} Homepage keywords will be here. {% endblock %}">
+    <meta name="description" content="{% block description %} Homepage description will be here. {% endblock %}">
+    <title>{% block title %} Welcome to Notepedia! {% endblock %}</title>
+
+    {% load static %}
+
+    <!-- Design fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+    <!-- FontAwesome Icons core CSS -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+
+    <!-- Responsive styles for this template -->
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+
+    <!-- Colors for this template -->
+    <link href="{% static 'css/colors.css' %}" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+    <script language="JavaScript" type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+          font-family: Arial;
+          margin: 0;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        img {
+          vertical-align: middle;
+        }
+
+        /* Position the image container11 (needed to position the left and right arrows) */
+        .container11 {
+          position: relative;
+          text-align: center;
+        }
+
+        /* Hide the images by default */
+        .mySlides {
+          display: none;
+        }
+
+        /* Add a pointer when hovering over the thumbnail images */
+        .cursor {
+          cursor: pointer;
+        }
+
+        /* Next & previous buttons */
+        .prev,
+        .next {
+          cursor: pointer;
+          position: absolute;
+          top: 40%;
+          width: auto;
+          padding: 16px;
+          margin-top: -50px;
+          color: white;
+          font-weight: bold;
+          font-size: 20px;
+          border-radius: 0 3px 3px 0;
+          user-select: none;
+          -webkit-user-select: none;
+        }
+
+        /* Position the "next button" to the right */
+        .next {
+          right: 0;
+          border-radius: 3px 0 0 3px;
+        }
+
+        /* Position the "next button" to the right */
+        .prev {
+          left: 0;
+          border-radius: 3px 0 0 3px;
+        }
+
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover,
+        .next:hover {
+          background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Number text (1/3 etc) */
+        .numbertext {
+          color: #f2f2f2;
+          font-size: 12px;
+          padding: 8px 12px;
+          position: absolute;
+          top: 0;
+        }
+
+        /* container11 for image text */
+        .caption-container11 {
+          text-align: center;
+          background-color: #222;
+          color: white;
+            width: 100%;
+          margin-bottom: -1.7rem;
+        }
+
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        /* Six columns side by side */
+        .col {
+            padding: 0 !important;
+        }
+
+        /* Add a transparency effect for thumnbail images */
+        .demo {
+          opacity: 0.6;
+        }
+
+        .active,
+        .demo:hover {
+          opacity: 1;
+        }
+    </style>
+    <body>
+    <div class="container11" style="padding: 40px 80px;">
+    {% if images %}
+        {% for rs in images %}
+          <div class="mySlides">
+            <div class="numbertext">{{ forloop.counter }} / {{ forloop|length }}</div>
+            <img src="{{ rs.image.url }}" style="height:80vh;">
+          </div>
+        {% endfor %}
+
+      <a class="prev" onclick="plusSlides(-1)">❮</a>
+      <a class="next" onclick="plusSlides(1)">❯</a>
+
+      <div class="caption-container11">
+        <p id="caption"></p>
+      </div>
+
+      <div class="row">
+        {% for rs in images %}
+            <div class="col">
+              <img class="demo cursor" src="{{ rs.image.url }}" style="width:100%" onclick="currentSlide({{ forloop.counter }})" alt="{{ rs.title }}">
+            </div>
+        {% endfor %}
+      </div>
+    {% else %}
+        <h4>This note does not have an image gallery</h4>
+    {% endif %}
+    </div>
+
+    <script>
+
+        $('#myModal').on('show.bs.modal', function (event) {
+            let btn = $('#showGallery');
+            alert(btn);
+          let button = $(event.relatedTarget); // Button that triggered the modal
+          let myData = button.data('image'); // Extract info from data-* attributes
+            console.log(myData);
+          // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+          // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+          let modal = $(this);
+          modal.find('.modal-title').text('New message to ' + myData);
+          modal.find('.modal-footer').innerHTML.set(myData);
+          alert(myData);
+        });
+
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+          showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+          showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+          var i;
+          var slides = document.getElementsByClassName("mySlides");
+          var dots = document.getElementsByClassName("demo");
+          var captionText = document.getElementById("caption");
+          if (n > slides.length) {slideIndex = 1}
+          if (n < 1) {slideIndex = slides.length}
+          for (i = 0; i < slides.length; i++) {
+              slides[i].style.display = "none";
+          }
+          for (i = 0; i < dots.length; i++) {
+              dots[i].className = dots[i].className.replace(" active", "");
+          }
+          slides[slideIndex-1].style.display = "block";
+          dots[slideIndex-1].className += " active";
+          captionText.innerHTML = dots[slideIndex-1].alt;
+        }
+    </script>
+
+    </body>
+</html>

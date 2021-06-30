@@ -10,8 +10,9 @@ urlpatterns = [
     path('notes/', views.user_notes, name='user_notes'),                                # List user's all notes.
     path('notes/<int:id>/', views.user_note_detail, name='user_note_detail'),           # View a note detail.
     path('notes/add/', views.user_add_note, name='user_add_note'),                      # Add a note.
-    path('notes/edit/<int:id>/', views.user_edit_note, name='user_edit_note'),          # Edit a note.
+    path('notes/edit/<int:pk>/', views.ContentImageEditView.as_view(), name='user_edit_note'),          # Edit a note.
     path('notes/delete/<int:id>/', views.user_delete_note, name='user_delete_note'),    # Delete a note.
+    path('notes/gallery/<int:id>/', views.user_notes_gallery, name='user_notes_gallery'),    # Quick Gallery.
     # ex: /polls/5/
     # path('<int:question_id>/', views.detail, name='detail'),
 ]
