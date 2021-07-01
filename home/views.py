@@ -12,7 +12,7 @@ from home.models import Setting, ContactForm, ContactFormMessage, UserProfile
 def index(request):
     setting = Setting.objects.first()
     category = Category.objects.all()
-    recent_notes = Content.objects.all().filter(status='True')[:4]
+    recent_notes = Content.objects.all().filter(status='True').order_by('-created_at')[:4]
     random_notes = Content.objects.all().filter(status='True').order_by('?')[:4]
 
     context = {

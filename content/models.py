@@ -4,6 +4,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
 from django.forms import ModelForm, Select, TextInput, FileInput
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from mptt.models import MPTTModel
 
@@ -18,7 +19,7 @@ class Category(MPTTModel):
     description = models.CharField(max_length=255)
     image = models.ImageField(blank=True, upload_to='images/')
     status = models.CharField(max_length=10, choices=STATUS)
-    slug = models.SlugField()
+    slug = models.SlugField(null=False, unique=True)
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -41,6 +42,9 @@ class Category(MPTTModel):
         else:
             return None
 
+    def get_absolute_url(self):
+        return reverse('category_detail', kwargs={'slug': self.slug})
+
     image_tag.short_description = 'Image'
 
 
@@ -57,7 +61,7 @@ class Content(models.Model):
     detail = RichTextUploadingField()
     file = models.FileField(blank=True, upload_to='files/')
     status = models.CharField(max_length=10, choices=STATUS)
-    slug = models.SlugField()
+    slug = models.SlugField(null=False, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -68,6 +72,9 @@ class Content(models.Model):
 
     def image_tag(self):
         return mark_safe('<img src="{}" height="50" />'.format(self.image.url))
+
+    def get_absolute_url(self):
+        return reverse('category_detail', kwargs={'slug': self.slug})
 
     image_tag.short_description = 'Image'
 
