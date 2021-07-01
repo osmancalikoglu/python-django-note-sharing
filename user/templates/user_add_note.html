@@ -1,6 +1,6 @@
 {% extends 'homebase.html' %}
 
-{% block title %} {{ profile.user.username }} - User Add Note {% endblock %}
+{% block title %} {{ profile.user.username }} - User {% if type == 'edit' %}Edit{% else %}Add{% endif %} Note {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block head %}
@@ -13,13 +13,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}'s Note</h2>
+                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}'s {% if type == 'edit' %}Edit{% else %}New{% endif %} Note</h2>
                 </div><!-- end col -->
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/user">User</a></li>
-                        <li class="breadcrumb-item active">Profile</li>
+                        <li class="breadcrumb-item"><a href="/user">User Profile</a></li>
+                        <li class="breadcrumb-item active">{% if type == 'edit' %}Edit{% else %}Add{% endif %} Note</li>
                     </ol>
                 </div><!-- end col -->
             </div><!-- end row -->
@@ -32,7 +32,7 @@
                 <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
                     <div class="page-wrapper">
                         <div class="custombox authorbox clearfix">
-                            <h4 class="small-title">Add New Note</h4>
+                            <h4 class="small-title">{% if type == 'edit' %}Edit{% else %}Add New{% endif %} Note</h4>
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 {% if type == 'edit' %}<img src="{{ content_form.instance.image.url }}" height="60" class="float-right" style="position:relative; margin-top: -60px;">{% endif %}
@@ -48,23 +48,27 @@
                                         {{ content_form.media }}
                                         {{ content_form.as_p }}
                                         <div class="custombox authorbox clearfix">
-                                            <h4 class="small-title">Add Image Gallery</h4>
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    {{ image_form.management_form }}
-                                                    {{ image_form.non_form_errors }}
-                                                    {% for form in image_form %}
-                                                        <div class="row flex-row justify-content-center">
-                                                            {{ form.as_p }}
-                                                        </div>
-                                                    {% endfor %}
+                                            <h4 class="small-title">{% if type == 'add' %}Add {% endif %}Image Gallery</h4>
+                                            {% if type == 'edit' %}
+                                                {% include 'user_note_gallery_modal.html' with images=images %}
+                                            {% else %}
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        {{ image_form.management_form }}
+                                                        {{ image_form.non_form_errors }}
+                                                        {% for form in image_form %}
+                                                            <div class="row flex-row justify-content-center">
+                                                                {{ form.as_p }}
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            {% endif %}
                                         </div>
                                         <hr class="invis">
                                         <div class="row">
                                             <a href="/user/notes" class="btn btn-outline-danger"><i class="fa fa-arrow-left"></i> Back</a>
-                                            <button type="submit" class="btn btn-primary">Add <i class="fa fa-send-o"></i></button>
+                                            <button type="submit" class="btn btn-primary">Send <i class="fa fa-send-o"></i></button>
                                         </div>
                                     </form>
                                 </div><!-- end col -->

@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 
@@ -13,7 +13,7 @@ from django.views.generic.detail import SingleObjectMixin
 
 from content.models import Category, Content, Images, ContentForm
 from home.models import Setting, UserProfile
-from user.forms import UserUpdateForm, ProfileUpdateForm, ContentImageForm, ContentImageFormSet, ContentImageFormSetEdit
+from user.forms import UserUpdateForm, ProfileUpdateForm, ContentImageFormSet
 
 
 @login_required(login_url='/login')
@@ -196,48 +196,7 @@ def user_edit_note(request, id):
             'profile': profile,
             'type': 'edit'
         }
-        return render(request, 'user_edit_note.html', context)
-
-
-class ContentImageEditView(SingleObjectMixin, FormView):
-    model = Content
-    template_name = 'user_edit_note.html'
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=Content.objects.all())
-        return super().get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=Content.objects.all())
-        return super().post(request, *args, **kwargs)
-
-    def get_form(self, form_class=None):
-        return ContentImageFormSet(**self.get_form_kwargs(), instance=self.object)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        content_form = ContentForm(instance=self.object)
-        category = Category.objects.all()
-        current_user = self.object.user
-        profile = UserProfile.objects.get(user_id=current_user.id)
-        context['note_id'] = self.object.id
-        context['category'] = category
-        context['content_form'] = content_form
-        context['profile'] = profile
-        context['type'] = 'edit'
-        return context
-
-    def get_success_url(self):
-        return reverse('user_notes')
-
-    def form_valid(self, form):
-        form.save()
-        messages.add_message(
-            self.request,
-            messages.SUCCESS,
-            'Changes were saved.'
-        )
-        return self.form_valid(form)
+        return render(request, 'user_add_note.html', context)
 
 
 @login_required(login_url='/login')
