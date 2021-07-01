@@ -101,3 +101,29 @@ class ContentForm(ModelForm):
             'file': FileInput(attrs={'class': 'form-control', 'placeholder': 'File'}),
             'detail': CKEditorWidget()
         }
+
+
+class Comment(models.Model):
+    STATUS = (
+        ('New', 'New'),
+        ('True', 'True'),
+        ('False', 'False')
+    )
+    content = models.ForeignKey(Content, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=50)
+    comment = models.CharField(max_length=200)
+    rate = models.IntegerField(blank=True, null=True)
+    status = models.CharField(max_length=10, choices=STATUS, default='New')
+    ip = models.CharField(max_length=20, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.subject
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['subject', 'comment', 'rate']

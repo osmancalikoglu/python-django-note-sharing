@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from content.models import Category, Content, Images
+from content.models import Category, Content, Images, Comment
 from home.forms import RegisterForm, SearchForm
 from home.models import Setting, ContactForm, ContactFormMessage, UserProfile
 
@@ -92,12 +92,14 @@ def category_notes(request,id,slug):
 
 
 def note_detail(request,id,slug):
+    comments = Comment.objects.filter(content_id=id, status='True')
     setting = Setting.objects.first()
     category = Category.objects.all()
     recent_notes = Content.objects.all().filter(status='True')[:4]
     notedata = Content.objects.get(pk=id)
     images = Images.objects.filter(content_id=id)
     context = {
+        'comments': comments,
         'setting': setting,
         'category': category,
         'recent_notes': recent_notes,

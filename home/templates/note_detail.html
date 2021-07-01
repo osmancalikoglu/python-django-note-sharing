@@ -31,6 +31,13 @@
             <div class="row">
                 <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                         <div class="page-wrapper">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
+                                        {{ message|safe }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                             <div class="blog-title-area">
                                 <div class="blog-meta big-meta">
                                     <small><a href="/" title="">{{ notedata.created_at.date }}</a></small>
@@ -71,7 +78,7 @@
                                 {{ notedata.detail|safe }}
                             </div><!-- end content -->
 
-                            <hr class="invis1">
+                            <hr class="invis">
 
                             <div class="custombox authorbox clearfix">
                                 <h4 class="small-title">About {{ notedata.user }}</h4>
@@ -94,66 +101,86 @@
                                 </div><!-- end row -->
                             </div><!-- end author-box -->
 
-                            <hr class="invis1">
+                            <hr class="invis">
 
                             <div class="custombox clearfix">
-                                <h4 class="small-title">3 Comments</h4>
+                                <h4 class="small-title">{{ comments.count }} Comment(s)</h4>
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="comments-list">
-                                            <div class="media">
-                                                <a class="media-left" href="#">
-                                                    <img src="{% static 'upload/author.jpg' %}" alt="" class="rounded-circle">
-                                                </a>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading user_name">Amanda Martines <small>5 days ago</small></h4>
-                                                    <p>Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. Aliquip veniam delectus, Marfa eiusmod Pinterest in do umami readymade swag. Selfies iPhone Kickstarter, drinking vinegar jean.</p>
-                                                    <a href="#" class="btn btn-primary btn-sm">Reply</a>
-                                                </div>
-                                            </div>
-                                            <div class="media">
-                                                <a class="media-left" href="#">
-                                                    <img src="{% static 'upload/author_01.jpg' %}" alt="" class="rounded-circle">
-                                                </a>
-                                                <div class="media-body">
-
-                                                    <h4 class="media-heading user_name">Baltej Singh <small>5 days ago</small></h4>
-
-                                                    <p>Drinking vinegar stumptown yr pop-up artisan sunt. Deep v cliche lomo biodiesel Neutra selfies. Shorts fixie consequat flexitarian four loko tempor duis single-origin coffee. Banksy, elit small.</p>
-
-                                                    <a href="#" class="btn btn-primary btn-sm">Reply</a>
-                                                </div>
-                                            </div>
-                                            <div class="media last-child">
-                                                <a class="media-left" href="#">
-                                                    <img src="{% static 'upload/author_02.jpg' %}" alt="" class="rounded-circle">
-                                                </a>
-                                                <div class="media-body">
-
-                                                    <h4 class="media-heading user_name">Marie Johnson <small>5 days ago</small></h4>
-                                                    <p>Kickstarter seitan retro. Drinking vinegar stumptown yr pop-up artisan sunt. Deep v cliche lomo biodiesel Neutra selfies. Shorts fixie consequat flexitarian four loko tempor duis single-origin coffee. Banksy, elit small.</p>
-
-                                                    <a href="#" class="btn btn-primary btn-sm">Reply</a>
-                                                </div>
-                                            </div>
+                                            {% if comments.count == 0 or comments.count is None %}
+                                                <h4>There is not any approved comments for this note.</h4>
+                                                <h6>You can simply leave a new comment below <i class="fa fa-arrow-down"></i></h6>
+                                            {% else %}
+                                                {% for rs in comments %}
+                                                    <div class="media">
+                                                        <a class="media-left" href="{{ rs.user.userprofile.image.url }}">
+                                                            <img src="{{ rs.user.userprofile.image.url }}" alt="" class="rounded-circle">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <strong>
+                                                                {{ rs.user.first_name }} {{ rs.user.last_name }}
+                                                            </strong>
+                                                            <small>{{ rs.created_at.date }}</small> tarihinde dedi ki :
+                                                            <hr>
+                                                            <h4 class="media-heading user_name">
+                                                                {{ rs.subject }}
+                                                                <span class="rating float-right">
+                                                                    {% if rs.rate is not None %}
+                                                                        <i class="fa fa-star{% if rs.rate < 1 %}-o empty{% endif %}"></i>
+                                                                        <i class="fa fa-star{% if rs.rate < 2 %}-o empty{% endif %}"></i>
+                                                                        <i class="fa fa-star{% if rs.rate < 3 %}-o empty{% endif %}"></i>
+                                                                        <i class="fa fa-star{% if rs.rate < 4 %}-o empty{% endif %}"></i>
+                                                                        <i class="fa fa-star{% if rs.rate < 5 %}-o empty{% endif %}"></i>
+                                                                    {% else %}
+                                                                        <i class="fa fa-star-o empty"></i>
+                                                                        <i class="fa fa-star-o empty"></i>
+                                                                        <i class="fa fa-star-o empty"></i>
+                                                                        <i class="fa fa-star-o empty"></i>
+                                                                        <i class="fa fa-star-o empty"></i>
+                                                                    {% endif %}
+                                                                </span>
+                                                            </h4>
+                                                            <p>{{ rs.comment }}</p>
+                                                        </div>
+                                                    </div>
+                                                    {% if not forloop.last %}<hr>{% endif %}
+                                                {% endfor %}
+                                            {% endif %}
                                         </div>
                                     </div><!-- end col -->
                                 </div><!-- end row -->
                             </div><!-- end custom-box -->
 
-                            <hr class="invis1">
+                            <hr class="invis">
 
                             <div class="custombox clearfix">
-                                <h4 class="small-title">Leave a Reply</h4>
+                                <h4 class="small-title">Leave a Comment</h4>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <form class="form-wrapper">
-                                            <input type="text" class="form-control" placeholder="Your name">
-                                            <input type="text" class="form-control" placeholder="Email address">
-                                            <input type="text" class="form-control" placeholder="Website">
-                                            <textarea class="form-control" placeholder="Your comment"></textarea>
-                                            <button type="submit" class="btn btn-primary">Submit Comment</button>
-                                        </form>
+                                        {% if user.id is not None %}
+                                            <form class="form-wrapper" action="/content/add_comment/{{ notedata.id }}/" method="POST">
+                                                {% csrf_token %}
+                                                <input name="subject" type="text" class="form-control" placeholder="Subject">
+                                                <textarea name="comment" class="form-control" placeholder="Your comment"></textarea>
+                                                <div class="rate">
+                                                    Your rating&nbsp;&nbsp;
+                                                    <input type="radio" id="star5" name="rate" value="5" />
+                                                    <label for="star5" title="text">5 stars</label>
+                                                    <input type="radio" id="star4" name="rate" value="4" />
+                                                    <label for="star4" title="text">4 stars</label>
+                                                    <input type="radio" id="star3" name="rate" value="3" />
+                                                    <label for="star3" title="text">3 stars</label>
+                                                    <input type="radio" id="star2" name="rate" value="2" />
+                                                    <label for="star2" title="text">2 stars</label>
+                                                    <input type="radio" id="star1" name="rate" value="1" />
+                                                    <label for="star1" title="text">1 star</label>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary float-right">Submit Comment <i class="fa fa-comment-o"></i></button>
+                                            </form>
+                                        {% else %}
+                                            <strong>Please <a href="/login"><span class="h6">Login <i class="fa fa-sign-in"></i>&nbsp;</span></a> to leave a comment</strong>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

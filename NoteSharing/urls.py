@@ -28,11 +28,10 @@ urlpatterns = [
     path('', include('home.urls')),
     path('home/', include('home.urls')),
     path('admin/', admin.site.urls),
-    #path('ckeditor/', include('ckeditor_uploader.urls')),
-    url(r'^ckeditor/upload/', login_required(ckeditor_views.upload), name='ckeditor_upload'),
-    url(r'^ckeditor/browse/', never_cache(login_required(ckeditor_views.browse)), name='ckeditor_browse'),
     path('content/', include('content.urls')),
     path('user/', include('user.urls')),
+    url(r'^ckeditor/upload/', login_required(ckeditor_views.upload), name='ckeditor_upload'),
+    url(r'^ckeditor/browse/', never_cache(login_required(ckeditor_views.browse)), name='ckeditor_browse'),
 
     path('contact/', views.contact, name='contact'),
     path('about/', views.about, name='about'),
