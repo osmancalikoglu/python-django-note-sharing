@@ -7,12 +7,13 @@ from django.shortcuts import render
 
 
 # Create your views here.
+from django.urls import reverse
 from django.views.generic import FormView
 from django.views.generic.detail import SingleObjectMixin
 
 from content.models import Category, Content, Images, ContentForm
 from home.models import Setting, UserProfile
-from user.forms import UserUpdateForm, ProfileUpdateForm, ContentImageForm, ContentImageFormSet
+from user.forms import UserUpdateForm, ProfileUpdateForm, ContentImageForm, ContentImageFormSet, ContentImageFormSetEdit
 
 
 @login_required(login_url='/login')
@@ -165,22 +166,13 @@ def user_add_note(request):
 
 
 @login_required(login_url='/login')
-def user_edit_note(request,id):
-    content = Content.objects.get(id=id)
+def user_edit_note(request, id):
+    content = Content.objects.get(pk=id)
     images = Images.objects.filter(content_id=content.id)
     if request.method == 'POST':
         content_form = ContentForm(request.POST, request.FILES, instance=content)
-        image_form = ContentImageFormSet(request.POST, request.FILES, queryset=images)
-        if content_form.is_valid() and image_form.is_valid():
+        if content_form.is_valid():
             content_form.save()
-            for form in image_form.cleaned_data:
-                # this helps to not crash if the user
-                # do not upload all the photos
-                if form:
-                    title = form['title']
-                    image = form['image']
-                    record = Images(content=content, title=title, image=image)
-                    record.save()
             messages.success(request, 'Your note was successfully updated!')
             return HttpResponseRedirect('/user/notes')
         else:
@@ -188,30 +180,28 @@ def user_edit_note(request,id):
                 request,
                 'Please correct the error below.<br>' +
                 'Content Form Errors:<br>' +
-                str(content_form.errors) +
-                '<br>Image Form Errors:<br> '
-                + str(image_form.errors)
+                str(content_form.errors)
             )
             return HttpResponseRedirect('/user/notes/edit/' + str(id))
     else:
         content_form = ContentForm(instance=content)
-        image_form = ContentImageFormSet(instance=images)
         category = Category.objects.all()
         current_user = request.user
         profile = UserProfile.objects.get(user_id=current_user.id)
         context = {
+            'note_id': content.id,
             'content_form': content_form,
-            'image_form': image_form,
+            'images': images,
             'category': category,
             'profile': profile,
             'type': 'edit'
         }
-        return render(request, 'user_add_note.html', context)
+        return render(request, 'user_edit_note.html', context)
 
 
 class ContentImageEditView(SingleObjectMixin, FormView):
     model = Content
-    template_name = 'user_add_note.html'
+    template_name = 'user_edit_note.html'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=Content.objects.all())
@@ -230,11 +220,15 @@ class ContentImageEditView(SingleObjectMixin, FormView):
         category = Category.objects.all()
         current_user = self.object.user
         profile = UserProfile.objects.get(user_id=current_user.id)
+        context['note_id'] = self.object.id
         context['category'] = category
         context['content_form'] = content_form
         context['profile'] = profile
         context['type'] = 'edit'
         return context
+
+    def get_success_url(self):
+        return reverse('user_notes')
 
     def form_valid(self, form):
         form.save()
@@ -243,7 +237,7 @@ class ContentImageEditView(SingleObjectMixin, FormView):
             messages.SUCCESS,
             'Changes were saved.'
         )
-        return HttpResponseRedirect('/user/notes')
+        return self.form_valid(form)
 
 
 @login_required(login_url='/login')

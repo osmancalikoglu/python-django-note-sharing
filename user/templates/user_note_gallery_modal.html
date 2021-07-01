@@ -40,7 +40,7 @@
     <style>
         body {
           font-family: Arial;
-          margin: 0;
+          padding-top: 0px;
         }
 
         * {
@@ -55,6 +55,9 @@
         .container11 {
           position: relative;
           text-align: center;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Hide the images by default */
@@ -108,7 +111,8 @@
           font-size: 12px;
           padding: 8px 12px;
           position: absolute;
-          top: 0;
+          top: 5%;
+            background-color: rgba(60, 60, 60, 0.8);
         }
 
         /* container11 for image text */
@@ -146,8 +150,8 @@
     {% if images %}
         {% for rs in images %}
           <div class="mySlides">
-            <div class="numbertext">{{ forloop.counter }} / {{ forloop|length }}</div>
-            <img src="{{ rs.image.url }}" style="height:80vh;">
+            <div class="numbertext">{{ forloop.counter }} / {{ images.count }}</div>
+              <a href="{{ rs.image.url }}" target="_blank"><img src="{{ rs.image.url }}" style="" class="img-fluid"></a>
           </div>
         {% endfor %}
 
@@ -155,13 +159,13 @@
       <a class="next" onclick="plusSlides(1)">❯</a>
 
       <div class="caption-container11">
-        <p id="caption"></p>
+        <p id="caption" class="text-white"></p>
       </div>
-
-      <div class="row">
+        <hr class="invis">
+      <div class="row flex-row justify-content-center">
         {% for rs in images %}
-            <div class="col">
-              <img class="demo cursor" src="{{ rs.image.url }}" style="width:100%" onclick="currentSlide({{ forloop.counter }})" alt="{{ rs.title }}">
+            <div class="flex-column p-1">
+              <img class="demo cursor" src="{{ rs.image.url }}" style="height:100px" onclick="currentSlide({{ forloop.counter }})" alt="{{ rs.title }}">
             </div>
         {% endfor %}
       </div>

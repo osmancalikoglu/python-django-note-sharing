@@ -51,3 +51,4 @@ class ContentImageForm(forms.ModelForm):
 
 
 ContentImageFormSet = inlineformset_factory(Content, Images, form=ContentImageForm, extra=5)
+ContentImageFormSetEdit = modelformset_factory(Images, form=ContentImageForm, extra=5, can_delete=True)

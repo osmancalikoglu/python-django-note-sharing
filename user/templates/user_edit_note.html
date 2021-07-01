@@ -1,6 +1,6 @@
 {% extends 'homebase.html' %}
 
-{% block title %} {{ profile.user.username }} - User Add Note {% endblock %}
+{% block title %} {{ profile.user.username }} - User Edit Note {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block head %}
@@ -32,10 +32,10 @@
                 <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
                     <div class="page-wrapper">
                         <div class="custombox authorbox clearfix">
-                            <h4 class="small-title">Add New Note</h4>
+                            <h4 class="small-title">Edit Note</h4>
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                {% if type == 'edit' %}<img src="{{ content_form.instance.image.url }}" height="60" class="float-right" style="position:relative; margin-top: -60px;">{% endif %}
+                                <img src="{{ content_form.instance.image.url }}" height="60" class="float-right" style="position:relative; margin-top: -60px;">
                                     {% if messages %}
                                         {% for message in messages %}
                                             <div {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
@@ -43,28 +43,18 @@
                                             </div>
                                         {% endfor %}
                                     {% endif %}
-                                    <form method="POST" enctype="multipart/form-data" class="form-wrapper">
+                                    <form action="/user/notes/edit/{{ note_id }}/" method="POST" enctype="multipart/form-data" class="form-wrapper">
                                         {% csrf_token %}
                                         {{ content_form.media }}
                                         {{ content_form.as_p }}
                                         <div class="custombox authorbox clearfix">
-                                            <h4 class="small-title">Add Image Gallery</h4>
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    {{ image_form.management_form }}
-                                                    {{ image_form.non_form_errors }}
-                                                    {% for form in image_form %}
-                                                        <div class="row flex-row justify-content-center">
-                                                            {{ form.as_p }}
-                                                        </div>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
+                                            <h4 class="small-title">Image Gallery</h4>
+                                            {% include 'user_note_gallery_modal.html' with images=images %}
                                         </div>
                                         <hr class="invis">
                                         <div class="row">
                                             <a href="/user/notes" class="btn btn-outline-danger"><i class="fa fa-arrow-left"></i> Back</a>
-                                            <button type="submit" class="btn btn-primary">Add <i class="fa fa-send-o"></i></button>
+                                            <button type="submit" class="btn btn-primary">Update <i class="fa fa-send-o"></i></button>
                                         </div>
                                     </form>
                                 </div><!-- end col -->
