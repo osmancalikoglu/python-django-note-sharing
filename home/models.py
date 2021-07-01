@@ -74,12 +74,16 @@ class ContactForm(ModelForm):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=50, blank=True)
-    address = models.CharField(max_length=50, blank=True)
-    city = models.CharField(max_length=50, blank=True)
-    country = models.CharField(max_length=50, blank=True)
-    school = models.CharField(max_length=50, blank=True)
     image = models.ImageField(blank=True, upload_to='images/users/')
+    phone = models.CharField(blank=True, max_length=50)
+    address = models.CharField(blank=True, max_length=50)
+    city = models.CharField(blank=True, max_length=50)
+    country = models.CharField(blank=True, max_length=50)
+    school = models.CharField(blank=True, max_length=50)
+    facebook = models.CharField(blank=True, max_length=50)
+    instagram = models.CharField(blank=True, max_length=50)
+    twitter = models.CharField(blank=True, max_length=50)
+    briefly = models.CharField(blank=True, max_length=50)
 
     def image_tag(self):
         return mark_safe('<img src="{}" height="50" />'.format(self.image.url))
@@ -94,5 +98,5 @@ class UserProfile(models.Model):
 class UserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['phone', 'address', 'city', 'country', 'school', 'image']
+        fields = ['image', 'phone', 'address', 'city', 'country', 'school', 'facebook', 'instagram', 'twitter', 'briefly']
 

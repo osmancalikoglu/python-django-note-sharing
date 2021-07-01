@@ -96,18 +96,23 @@
                                                 {{ profile.school }}
                                             </td>
                                         </tr>
+                                        <tr class="table-bordered">
+                                            <th class="table-bordered">
+                                                <i class="fa fa-info"></i>&nbsp;&nbsp;Briefly
+                                            </th>
+                                            <td class="table-bordered">
+                                                {{ profile.briefly }}
+                                            </td>
+                                        </tr>
                                     </table>
                                     <hr class="invis">
                                     <div class="row">
                                         <div class="col col-lg-4 col-md-12 col-sm-12">
                                             <div class="topsocial">
-                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
-                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube"></i></a>
-                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
-                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Website"><i class="fa fa-link"></i></a>
-                                            </div><!-- end social -->
+                                                <a href="{{ profile.facebook }}" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
+                                                <a href="{{ profile.twitter }}" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
+                                                <a href="{{ profile.instagram }}" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
+                                                </div><!-- end social -->
                                         </div><!-- end col -->
                                         <div class="col col-lg-8 col-md-12 col-sm-12 text-right">
                                             <a class="btn btn-info" href="/user/update"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Profile</a>
