@@ -113,7 +113,7 @@
                                                 <h6>You can simply leave a new comment below <i class="fa fa-arrow-down"></i></h6>
                                             {% else %}
                                                 {% for rs in comments %}
-                                                    <div class="media">
+                                                    <div class="media" {% if rs.user.id == user.id %}style="background-color: rgba(150, 220, 255, 0.1); outline: 1px dashed #EEE; outline-offset: 7px;"{% endif %}>
                                                         <a class="media-left" href="{{ rs.user.userprofile.image.url }}">
                                                             <img src="{{ rs.user.userprofile.image.url }}" alt="" class="rounded-circle">
                                                         </a>

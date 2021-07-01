@@ -1,0 +1,75 @@
+{% extends 'homebase.html' %}
+
+{% block title %} {{ profile.user.username }} - User Comments {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ setting.icon.url }}" type="image/x-icon" />
+{% endblock %}
+
+{% block body %}
+    {% load static %}
+    <div class="page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}'s Comments</h2>
+                </div><!-- end col -->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/user">User Profile</a></li>
+                        <li class="breadcrumb-item active">Comments</li>
+                    </ol>
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end page-title -->
+    {% if messages %}
+        {% for message in messages %}
+            <div {% if message.tags == 'error' %} class="alert alert-danger m-0" {% else %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                    <div class="page-wrapper">
+                        <div class="custombox clearfix">
+                            <h4 class="small-title">{{ comments|length }} Note(s)</h4>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="comments-list">
+                                        {% for rs in comments %}
+                                            <div class="media">
+                                                    <img src="{{ rs.content.image.url }}" alt="" class="rounded-circle">
+                                                <div class="media-body">
+                                                    <h4 class="media-heading user_name d-inline">Note : {{ rs.content.title }}</h4>
+                                                    <hr>
+                                                    <h4 class="media-heading user_name d-inline">{{ rs.subject }} <small>{{ rs.created_at.date}}</small></h4>
+                                                    <p class="font-italic">{{ rs.comment }}</p>
+                                                    <a href="/note/{{ rs.content.id }}/{{ rs.content.slug }}" class="btn btn-sm btn-primary float-left">
+                                                        <i class="fa fa-eye"></i>&nbsp;&nbsp;See The Note
+                                                    </a>
+                                                    <button id="showGallery" onclick="window.open('/user/notes/gallery/{{ rs.content.id }}', 'gallery', 'height=600, width=1000, top=100, left=250')" data-image="My images" type="button" class="btn btn-sm btn-primary text-warning float-left">
+                                                        Quick Gallery&nbsp;&nbsp;
+                                                        <i class="fa fa-image"></i>
+                                                    </button>
+                                                    <small class="float-right">Is Approved : {% if rs.status == 'False' %} <i class="fa fa-times text-danger" title="False"></i> {% endif %}{% if rs.status == 'True' %} <i class="fa fa-check text-success" title="True"></i>{% endif %} {% if rs.status == 'New' %}<i class="fa fa-search text-warning" title="New"></i> {% endif %}</small>
+                                                </div>
+                                            </div>
+                                            {% if not forloop.last %}<hr>{% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div><!-- end col -->
+                            </div><!-- end row -->
+                        </div><!-- end custom-box -->
+                    </div><!-- end page-wrapper -->
+                </div><!-- end col -->
+                {% include 'user_profile_sidebar.html' %}
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </section>
+{% endblock %}

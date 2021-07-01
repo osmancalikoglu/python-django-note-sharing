@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.views.generic import FormView
 from django.views.generic.detail import SingleObjectMixin
 
-from content.models import Category, Content, Images, ContentForm
+from content.models import Category, Content, Images, ContentForm, Comment
 from home.models import Setting, UserProfile
 from user.forms import UserUpdateForm, ProfileUpdateForm, ContentImageFormSet
 
@@ -216,3 +216,17 @@ def user_notes_gallery(request,id):
         'images': images
     }
     return render(request, 'user_note_gallery_modal.html', context)
+
+
+@login_required(login_url='/login')
+def user_comments(request):
+    category = Category.objects.all()
+    current_user = request.user
+    profile = UserProfile.objects.get(user_id=current_user.id)
+    comments = Comment.objects.filter(user_id=current_user.id).order_by('-created_at')
+    context = {
+        'comments': comments,
+        'category': category,
+        'profile': profile
+    }
+    return render(request, 'user_comments.html', context)
