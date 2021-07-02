@@ -6,7 +6,7 @@ from django.shortcuts import render
 # Create your views here.
 from content.models import Category, Content, Images, Comment
 from home.forms import RegisterForm, SearchForm
-from home.models import Setting, ContactForm, ContactFormMessage, UserProfile
+from home.models import Setting, ContactForm, ContactFormMessage, UserProfile, FAQ
 from django.db.models import Avg
 
 
@@ -184,3 +184,17 @@ def note_search(request):
         }
         return render(request, 'notes_search.html', context)
     return HttpResponseRedirect('/')
+
+
+def faq(request):
+    setting = Setting.objects.first()
+    category = Category.objects.all()
+    recent_notes = Content.objects.all().filter(status='True')[:4]
+    faqs = FAQ.objects.filter(status=True)
+    context = {
+        'faqs': faqs,
+        'setting': setting,
+        'recent_notes': recent_notes,
+        'category': category
+    }
+    return render(request, 'faq.html', context)

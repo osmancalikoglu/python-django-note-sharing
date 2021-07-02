@@ -1,0 +1,57 @@
+{% extends 'homebase.html' %}
+
+{% block title %} FAQ - {{ setting.company }} {% endblock %}
+{% block keywords %} {{ categorydata.keywords }} {% endblock %}
+{% block description %} {{ categorydata.description }} {% endblock %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ setting.icon.url }}" type="image/x-icon" />
+{% endblock %}
+
+{% block body %}
+    <div class="page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <h2><i class="fa fa-question"></i> FAQ</h2>
+                </div><!-- end col -->
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">FAQ</li>
+                    </ol>
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end page-title -->
+
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                    <div class="page-wrapper">
+                        <div class="accordion" id="accordionExample">
+                            {% for rs in faqs %}
+                                <div class="card">
+                                    <div class="card-header" id="heading{{ forloop.counter }}">
+                                        <h4 class="mb-0">
+                                            <button class="btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                                                {{ rs.question }}
+                                            </button>
+                                        </h4>
+                                    </div>
+
+                                    <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordionExample">
+                                        <div class="card-body p-3">
+                                            {{ rs.answer }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div><!-- end page-wrapper -->
+                </div><!-- end col -->
+                {% include 'sidebar.html' %}
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </section>
+{% endblock %}
