@@ -1,4 +1,3 @@
-from ckeditor.fields import RichTextField
 from ckeditor.widgets import CKEditorWidget
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User

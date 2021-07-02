@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
+from mptt.admin import DraggableMPTTAdmin
 
 from content.models import Category, Content, Images, Comment
 

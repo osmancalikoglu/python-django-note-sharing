@@ -98,7 +98,9 @@ class UserProfile(models.Model):
 class UserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['image', 'phone', 'address', 'city', 'country', 'school', 'facebook', 'instagram', 'twitter', 'briefly']
+        fields = [
+            'image', 'phone', 'address', 'city', 'country', 'school', 'facebook', 'instagram', 'twitter', 'briefly'
+        ]
 
 
 class FAQ(models.Model):

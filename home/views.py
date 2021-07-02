@@ -1,13 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
 from content.models import Category, Content, Images, Comment
 from home.forms import RegisterForm, SearchForm
 from home.models import Setting, ContactForm, ContactFormMessage, UserProfile, FAQ
-from django.db.models import Avg
 
 
 def index(request):
@@ -78,7 +77,7 @@ def references(request):
     return render(request, 'references.html', context)
 
 
-def category_notes(request,id,slug):
+def category_notes(request, id):
     setting = Setting.objects.first()
     category = Category.objects.all()
     recent_notes = Content.objects.all().filter(status='True')[:4]
@@ -94,7 +93,7 @@ def category_notes(request,id,slug):
     return render(request, 'notes.html', context)
 
 
-def note_detail(request,id,slug):
+def note_detail(request, id):
     comments = Comment.objects.filter(content_id=id, status='True')
     setting = Setting.objects.first()
     category = Category.objects.all()
@@ -174,7 +173,7 @@ def note_search(request):
         category = Category.objects.all()
         recent_notes = Content.objects.all().filter(status='True')[:4]
         query = form.cleaned_data['query']
-        notes = Content.objects.filter(title__icontains=query) # Select * from contents where title like %query%
+        notes = Content.objects.filter(title__icontains=query)  # Select * from contents where title like %query%
         context = {
             'query': query,
             'notes': notes,

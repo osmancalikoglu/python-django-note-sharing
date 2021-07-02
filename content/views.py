@@ -1,16 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
 
 # Create your views here.
 from content.models import CommentForm, Comment
 
 
 def index(request):
-    text="Merhaba Conent!"
-    context = {'text': text}
-    return HttpResponse(context)
+    context = {'text': 'Hello Content App'}
+    return HttpResponse(context.values())
 
 
 @login_required(login_url='/login')

@@ -130,9 +130,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ...
 SITE_ID = 1
 
-####################################
-##     CKEDITOR CONFIGURATION     ##
-####################################
+##################################
+#     CKEDITOR CONFIGURATION     #
+##################################
 
 CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
 
