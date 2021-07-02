@@ -1,0 +1,29 @@
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="background-color: #edeff2;">
+    <span class="btn btn-lg btn-primary" style="position: absolute; right: 0; margin-right: 5%; margin-top: -1rem;">Editor's Choice Notes <i class="fa fa-check text-success"></i> </span>
+    <ol class="carousel-indicators">
+        {% for rs in most_liked %}
+            <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+        {% endfor %}
+    </ol>
+    <div class="carousel-inner">
+        {% for rs in most_liked %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ rs.image.url }}" alt="Image" style="height: 50vh; margin-left: auto; margin-right: 60%;">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5><a href="/note/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h5>
+                    <p><span style="background-color: rgba(255, 255, 255, 0.5); padding: 10px">{{ rs.description }}</span></p>
+                    <span style="background-color: rgba(0, 0, 0, 0.2); padding: 10px">by {{ rs.user }}</span>
+                    <hr class="invis">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
