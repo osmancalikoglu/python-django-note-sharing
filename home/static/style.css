@@ -1714,3 +1714,8 @@ hr.invis3 {
 }
 
 /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+
+.blog-content img {
+    width: 100% !important;
+    height: auto !important;
+}
