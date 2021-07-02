@@ -85,7 +85,7 @@ def user_notes(request):
     category = Category.objects.all()
     current_user = request.user
     profile = UserProfile.objects.get(user_id=current_user.id)
-    notes = Content.objects.filter(user_id=current_user.id)
+    notes = Content.objects.order_by('-created_at').filter(user_id=current_user.id)
     context = {
         'notes': notes,
         'category': category,
@@ -127,7 +127,10 @@ def user_add_note(request):
             data.detail = content_form.cleaned_data['detail']
             data.file = content_form.cleaned_data['file']
             data.slug = content_form.cleaned_data['slug']
-            data.status = 'False'
+            if request.user.is_superuser:
+                data.status = 'True'
+            else:
+                data.status = 'False'
             data.save()
             for form in image_form.cleaned_data:
                 # this helps to not crash if the user
