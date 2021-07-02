@@ -99,7 +99,7 @@ def note_detail(request,id,slug):
     setting = Setting.objects.first()
     category = Category.objects.all()
     recent_notes = Content.objects.all().filter(status='True')[:4]
-    notedata = Content.objects.get(pk=id)
+    notedata = Content.objects.get(pk=id, status=True)
     images = Images.objects.filter(content_id=id)
     context = {
         'comments': comments,

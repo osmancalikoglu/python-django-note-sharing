@@ -8,11 +8,12 @@
     <div class="carousel-inner">
         {% for rs in most_liked %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <img src="{{ rs.image.url }}" alt="Image" style="height: 50vh; margin-left: auto; margin-right: 60%;">
+                <a href="/note/{{ rs.id }}/{{ rs.slug }}" style=" margin-left: auto; margin-right: 60%;"><img src="{{ rs.image.url }}" alt="Image" style="height: 50vh;"></a>
                 <div class="carousel-caption d-none d-md-block">
                     <h5><a href="/note/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h5>
                     <p><span style="background-color: rgba(255, 255, 255, 0.5); padding: 10px">{{ rs.description }}</span></p>
-                    <span style="background-color: rgba(0, 0, 0, 0.2); padding: 10px">by {{ rs.user }}</span>
+                    <small style="background-color: rgba(0, 0, 0, 0.2); padding: 10px">pulished in {{ rs.created_at.date }}</small>
+                    <small style="background-color: rgba(0, 0, 0, 0.2); padding: 10px">to <a class="text-white" href="/category/{{ rs.id }}/{{ rs.slug }}">{{ rs.category }}</a></small>
                     <hr class="invis">
                 </div>
             </div>
