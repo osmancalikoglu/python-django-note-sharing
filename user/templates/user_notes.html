@@ -60,6 +60,11 @@
                                                         Quick Gallery&nbsp;&nbsp;
                                                         <i class="fa fa-image"></i>
                                                     </button>
+                                                    {% if rs.file %}
+                                                        <a id="showGallery" href="{{ rs.file.url }}" target="_blank" class="btn btn-sm btn-primary text-success float-left">
+                                                            <i class="fa fa-file"></i>
+                                                        </a>
+                                                    {% endif %}
                                                     <small>Is Approved : </small>{% if rs.status == 'False' %} <i class="fa fa-times text-danger"></i> {% else %} <i class="fa fa-check text-success"></i> {% endif %}
                                                     <a onclick="return confirm('Are you sure to delete?')" class="btn btn-sm btn-primary text-danger float-right" href="/user/notes/delete/{{ rs.id }}">Delete Note&nbsp;&nbsp;<i class="fa fa-trash"></i></a>
                                                     <a class="btn btn-sm btn-primary float-right" href="/user/notes/edit/{{ rs.id }}"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Note</a>

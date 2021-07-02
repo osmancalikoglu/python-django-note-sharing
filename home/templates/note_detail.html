@@ -42,6 +42,9 @@
                             {% if notedata == None %}
                                 <h1>This note is not approved yet. Please contact with site administrator.</h1>
                             {% else %}
+                                {% if notedata.file %}
+                                        <a href="{{ notedata.file.url }}" target="_blank" class="btn btn-lg btn-primary text-white float-right" style="position: absolute; right: 0">See This Note's PDF &nbsp;<i class="fa fa-file text-warning"></i></a>
+                                {% endif %}
                                 <div class="blog-title-area">
                                     <div class="blog-meta big-meta">
                                         <small><a href="/" title="">{{ notedata.created_at.date }}</a></small>
