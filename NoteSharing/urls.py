@@ -43,6 +43,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
     path('search/', views.note_search, name='note_search'),
+    path('favorite/<int:id>/', views.favorite_note, name='note_search'),
 ]
 
 if settings.DEBUG:

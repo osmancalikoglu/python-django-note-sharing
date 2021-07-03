@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.views.generic import FormView
 from django.views.generic.detail import SingleObjectMixin
 
-from content.models import Category, Content, Images, ContentForm, Comment
+from content.models import Category, Content, Images, ContentForm, Comment, Favorite
 from home.models import Setting, UserProfile
 from user.forms import UserUpdateForm, ProfileUpdateForm, ContentImageFormSet
 
@@ -92,6 +92,20 @@ def user_notes(request):
         'profile': profile
     }
     return render(request, 'user_notes.html', context)
+
+
+@login_required(login_url='/login')
+def user_favorites(request):
+    category = Category.objects.all()
+    current_user = request.user
+    profile = UserProfile.objects.get(user_id=current_user.id)
+    favorites = Favorite.objects.order_by('-created_at').filter(user_id=current_user.id)
+    context = {
+        'favorites': favorites,
+        'category': category,
+        'profile': profile
+    }
+    return render(request, 'user_favorites.html', context)
 
 
 @login_required(login_url='/login')

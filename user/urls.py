@@ -14,6 +14,7 @@ urlpatterns = [
     path('notes/delete/<int:id>/', views.user_delete_note, name='user_delete_note'),        # Delete a note.
     path('notes/gallery/<int:id>/', views.user_notes_gallery, name='user_notes_gallery'),   # Quick Gallery.
     path('comments/', views.user_comments, name='user_comments'),                           # List user's all comments.
+    path('favorites/', views.user_favorites, name='user_favorites'),                        # List user's all favorites.
     # ex: /polls/5/
     # path('<int:question_id>/', views.detail, name='detail'),
 ]

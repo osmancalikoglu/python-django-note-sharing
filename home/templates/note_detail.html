@@ -49,6 +49,7 @@
                                     <div class="blog-meta big-meta">
                                         <small><a href="/" title="">{{ notedata.created_at.date }}</a></small>
                                         <small><a href="/" title="">by {{ notedata.user }}</a></small>
+                                        {% if user.id is not None %}{% if favorite %}<a href="/favorite/{{ notedata.id }}" class="text-danger"><i class="fa fa-heart text-danger"></i> </a>{% else %}<a href="/favorite/{{ notedata.id }}" title=""><i class="fa fa-heart"></i> </a>{% endif %}{% endif %}
                                     </div><!-- end meta -->
                                 </div><!-- end title -->
 

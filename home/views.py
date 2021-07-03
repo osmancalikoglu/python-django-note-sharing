@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from content.models import Category, Content, Images, Comment
+from content.models import Category, Content, Images, Comment, Favorite
 from home.forms import RegisterForm, SearchForm
 from home.models import Setting, ContactForm, ContactFormMessage, UserProfile, FAQ
 from django.db.models import Avg
@@ -104,13 +105,16 @@ def note_detail(request, id, slug):
     except:
         notedata = None
     images = Images.objects.filter(content_id=id)
+    current_user = request.user
+    favorite = Favorite.objects.filter(content_id=id, user_id=current_user.id)
     context = {
         'comments': comments,
         'setting': setting,
         'category': category,
         'recent_notes': recent_notes,
         'notedata': notedata,
-        'images': images
+        'images': images,
+        'favorite': favorite
     }
     return render(request, 'note_detail.html', context)
 
@@ -201,3 +205,22 @@ def faq(request):
         'category': category
     }
     return render(request, 'faq.html', context)
+
+
+@login_required(login_url='/login')
+def favorite_note(request, id):
+    url = request.META.get('HTTP_REFERER')
+    current_user = request.user
+    favorite = Favorite.objects.filter(content_id=id, user_id=current_user.id)
+    if favorite:
+        favorite.delete()
+        messages.warning(request, 'The note was successfully removed from your favorites!')
+        return HttpResponseRedirect(url)
+    else:
+        data = Favorite()
+        data.user_id = current_user.id
+        data.content_id = id
+        data.status = 'True'
+        data.save()
+        messages.success(request, 'The note was successfully added to your favorites!')
+        return HttpResponseRedirect(url)

@@ -1,6 +1,6 @@
 {% extends 'homebase.html' %}
 
-{% block title %} {{ profile.user.username }} - User Notes {% endblock %}
+{% block title %} {{ profile.user.username }} - User Favorites {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block head %}
@@ -13,13 +13,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}'s Notes</h2>
+                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}'s Favorites</h2>
                 </div><!-- end col -->
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/user">User</a></li>
-                        <li class="breadcrumb-item active">Profile</li>
+                        <li class="breadcrumb-item"><a href="/user">User Profile</a></li>
+                        <li class="breadcrumb-item active">Favorites</li>
                     </ol>
                 </div><!-- end col -->
             </div><!-- end row -->
@@ -38,36 +38,25 @@
                 <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                     <div class="page-wrapper">
                         <div class="custombox clearfix">
-                            <h4 class="small-title">{{ notes|length }} Note(s)</h4>
+                            <h4 class="small-title">{{ favorites|length }} Note(s)</h4>
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <a class="btn btn-info float-right" style="margin-top: -4.25rem;" href="/user/notes/add"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add New Note</a>
-                                        </div>
-                                    </div>
                                     <div class="comments-list">
-                                        {% for rs in notes %}
+                                        {% for rs in favorites %}
                                             <div class="media">
-                                                    <img src="{{ rs.image.url }}" alt="" class="rounded-circle">
+                                                    <img src="{{ rs.content.image.url }}" alt="" class="rounded-circle">
                                                 <div class="media-body">
-                                                    <h4 class="media-heading user_name d-inline">{{ rs.title }} <small>{{ rs.created_at.date}}</small></h4><a class="btn-sm btn-outline-secondary ml-2" href="/category/{{ rs.category.id }}/{{ rs.category.slug }}" title="">{{ rs.category }}</a>
+                                                    <h4 class="media-heading user_name d-inline">{{ rs.content.title }} <small>{{ rs.content.created_at.date}}</small></h4><a class="btn-sm btn-outline-secondary ml-2" href="/category/{{ rs.content.category.id }}/{{ rs.content.category.slug }}" title="">{{ rs.content.category }}</a>
                                                     <p>{{ rs.description }}</p>
-                                                    <a href="/user/notes/{{ rs.id }}" class="btn btn-sm btn-primary float-left">
+                                                    <a href="/note/{{ rs.content.id }}/{{ rs.content.slug }}" class="btn btn-sm btn-primary float-left">
                                                         <i class="fa fa-info"></i>&nbsp;&nbsp;Detail
                                                     </a>
-                                                    <button id="showGallery" onclick="window.open('/user/notes/gallery/{{ rs.id }}', 'gallery', 'height=600, width=1000, top=100, left=250')" data-image="My images" type="button" class="btn btn-sm btn-primary text-warning float-left">
-                                                        Quick Gallery&nbsp;&nbsp;
-                                                        <i class="fa fa-image"></i>
-                                                    </button>
-                                                    {% if rs.file %}
-                                                        <a id="showGallery" href="{{ rs.file.url }}" target="_blank" class="btn btn-sm btn-primary text-success float-left">
+                                                    {% if rs.content.file %}
+                                                        <a id="showGallery" href="{{ rs.content.file.url }}" target="_blank" class="btn btn-sm btn-primary text-success float-left">
                                                             <i class="fa fa-file"></i>
                                                         </a>
                                                     {% endif %}
-                                                    <small>Is Approved : </small>{% if rs.status == 'False' %} <i class="fa fa-times text-danger"></i> {% else %} <i class="fa fa-check text-success"></i> {% endif %}
-                                                    <a onclick="return confirm('Are you sure to delete?')" class="btn btn-sm btn-primary text-danger float-right" href="/user/notes/delete/{{ rs.id }}">Delete Note&nbsp;&nbsp;<i class="fa fa-trash"></i></a>
-                                                    <a class="btn btn-sm btn-primary float-right" href="/user/notes/edit/{{ rs.id }}"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Note</a>
+                                                    <a onclick="return confirm('Are you sure to delete?')" class="btn btn-sm btn-primary text-danger float-right" href="/favorite/{{ rs.content.id }}">Remove from Favorites&nbsp;&nbsp;<i class="fa fa-heartbeat"></i></a>
                                                 </div>
                                             </div>
                                             {% if not forloop.last %}<hr>{% endif %}
